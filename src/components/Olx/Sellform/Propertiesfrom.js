@@ -108,6 +108,7 @@ const PropertiesForm = ({flag,editdata}) => {
     }
     else{
       // edit logic here
+      //u will get the id from formdata
     }
     console.log(formData);
   };
