@@ -93,6 +93,9 @@ const MobilesForm = ({flag,editdata}) => {
       }
       navigate("/myads")
     }
+    else{
+      // edit logic here
+    }
     console.log(formData);
   };
 
