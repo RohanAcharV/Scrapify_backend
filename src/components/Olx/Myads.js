@@ -72,9 +72,9 @@ function Myads(){
                           <Button sx={{color:'green',fontWeight:'bold'}} onClick={()=>navigate(`/editform`,{state:{formData:data}})}>Edit</Button>
                           <Button sx={{color:'blue',fontWeight:'bold'}} onClick={()=>navigate(`/resell/${data.id}/1`)}>View</Button> </Box> 
                       {
-                        // (data.status=='active') ? (<Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}} onClick={()=>handleSoldstatus()}>Mark as sold</Button> ) : (
-                        //   <Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}}>Sold</Button> 
-                        // )
+                        (data.status=='active') ? (<Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}} onClick={()=>handleSoldstatus()}>Mark as sold</Button> ) : (
+                          <Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}}>Sold</Button> 
+                        )
                       }
                   </Box>
               </Box>
