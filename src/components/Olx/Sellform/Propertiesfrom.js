@@ -109,6 +109,12 @@ const PropertiesForm = ({flag,editdata}) => {
     else{
       // edit logic here
       //u will get the id from formdata
+
+
+
+
+      
+      //navigate("/myads")
     }
     console.log(formData);
   };
