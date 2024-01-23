@@ -46,7 +46,8 @@ const VehicleForm = ({flag,editdata}) => {
     additionalDescription: '',
     postedDate: new Date().toLocaleDateString('en-GB'),
     images:[],
-    useremail:localStorage.getItem('user_email')
+    useremail:localStorage.getItem('user_email'),
+    status:'active'
   });
 
   useEffect(()=>{

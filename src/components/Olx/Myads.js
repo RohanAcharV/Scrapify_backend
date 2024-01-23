@@ -42,6 +42,11 @@ function Myads(){
         console.log('Item Data Array:', itemData);
       }, [itemData]);
 
+      const handleSoldstatus=()=>{
+          // update status to sold
+      }
+
+
       const navigate=useNavigate();
     return(
       <Box>
@@ -66,7 +71,11 @@ function Myads(){
                           <Box sx={{flex:1,display:'flex',justifyContent:'space-around'}}>
                           <Button sx={{color:'green',fontWeight:'bold'}} onClick={()=>navigate(`/editform`,{state:{formData:data}})}>Edit</Button>
                           <Button sx={{color:'blue',fontWeight:'bold'}} onClick={()=>navigate(`/resell/${data.id}`)}>View</Button> </Box> 
-                      <Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}}>Mark as sold</Button>
+                      {
+                        (data.status=='active') ? (<Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}} onClick={()=>handleSoldstatus()}>Mark as sold</Button> ) : (
+                          <Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}}>Sold</Button> 
+                        )
+                      }
                   </Box>
               </Box>
           ))
