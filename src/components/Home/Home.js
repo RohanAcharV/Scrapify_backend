@@ -61,7 +61,7 @@ function Home(){
              <Route path="/pickup" element={<><Navbar useremail={useremail} handleLogout={handleLogout}/><Pickup useremail={useremail}/></>}/>
              <Route path="/profile" element={<><Navbar useremail={useremail} handleLogout={handleLogout}/><Profile useremail={useremail}/></>}/>
              <Route path="/myads" element={<><Navbar useremail={useremail} handleLogout={handleLogout}/><Myads useremail={useremail}/></>}/>
-             <Route path="/resell/:id" element={<><Navbar useremail={useremail} handleLogout={handleLogout}/><Itemdesc useremail={useremail}/></>}/>
+             <Route path="/resell/:id/:showcontact?" element={<><Navbar useremail={useremail} handleLogout={handleLogout}/><Itemdesc useremail={useremail}/></>}/>
              <Route path="/" element={<Condition useremail={useremail}/>}/>     
             </Routes>
         </Router>

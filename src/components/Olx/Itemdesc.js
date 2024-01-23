@@ -20,7 +20,8 @@ function Itemdesc(){
   const [desc,setdesc]=useState(null);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
-  const { id } = useParams();
+  const { id , showcontact } = useParams();
+  
   
   useEffect(() => {
     const handleResize = () => {
@@ -123,7 +124,7 @@ useEffect(()=>{
                     </Box>
                   </Box>
           
-                  <Box sx={{border:'1px solid lightgrey', mt:'4vh',borderRadius:'10px',padding:'2vh 5vw',width:'70vw'}}>
+                  <Box sx={{border:'1px solid lightgrey', mt:'4vh',mb:'4vh' , borderRadius:'10px',padding:'2vh 5vw',width:'70vw'}}>
                   <Typography sx={{fontSize:{xs:'16px',sm:"18px"},fontWeight:'bold'}}>Description</Typography>
                   <Divider sx={{backgroundColor:'lightblue',m:'1vh 0'}}/>
                 {Object.entries(desc).map(([key, value]) => (
@@ -136,12 +137,13 @@ useEffect(()=>{
               ))}
               
                   </Box>
-          
-                  <Box sx={{border:'1px solid lightgrey', m:'4vh 0',borderRadius:'10px',padding:'2vh 5vw',width:'70vw'}}>
+
+                    {(showcontact=='1'||showcontact==1)?(<></>):(<Box sx={{border:'1px solid lightgrey', mb:'4vh',borderRadius:'10px',padding:'2vh 5vw',width:'70vw'}}>
                     <Box sx={{display:'flex',alignItems:'center'}}><Avatar /><Typography sx={{fontSize:{xs:'14px',sm:"18px"},fontWeight:'bold',ml:'5vw'}}>{itemData.useremail}</Typography></Box>
                     <Box sx={{display:'flex',alignContent:'center',justifyContent:'center',mt:'3vh'}}>
                       <Button sx={{border:'2px solid black',borderRadius:'5px',width:'80vw',fontWeight:'bold',color:'black'}}>Chat with seller</Button></Box>
-                  </Box>
+                  </Box>)}
+                  
           
                 </Box></Box>)
           }

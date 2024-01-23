@@ -70,11 +70,11 @@ function Myads(){
                       <Typography sx={{ display: 'flex', alignItems: 'center',backgroundColor:'rgba(211, 211, 211, 0.2)',flex:1,paddingLeft:'3vw',fontSize:{xs:'14px',sm:'18px'},fontWeight:'bold'}}>&#8377; &nbsp; {data.price}</Typography>
                           <Box sx={{flex:1,display:'flex',justifyContent:'space-around'}}>
                           <Button sx={{color:'green',fontWeight:'bold'}} onClick={()=>navigate(`/editform`,{state:{formData:data}})}>Edit</Button>
-                          <Button sx={{color:'blue',fontWeight:'bold'}} onClick={()=>navigate(`/resell/${data.id}`)}>View</Button> </Box> 
+                          <Button sx={{color:'blue',fontWeight:'bold'}} onClick={()=>navigate(`/resell/${data.id}/1`)}>View</Button> </Box> 
                       {
-                        (data.status=='active') ? (<Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}} onClick={()=>handleSoldstatus()}>Mark as sold</Button> ) : (
-                          <Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}}>Sold</Button> 
-                        )
+                        // (data.status=='active') ? (<Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}} onClick={()=>handleSoldstatus()}>Mark as sold</Button> ) : (
+                        //   <Button sx={{flex:0.5,width:'80%',height:'60%',border:'1px solid black',borderRadius:'2px',fontWeight:'bolder',color:'black',margin:'0 auto 5% auto'}}>Sold</Button> 
+                        // )
                       }
                   </Box>
               </Box>
