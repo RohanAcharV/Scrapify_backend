@@ -5,86 +5,77 @@ import { useNavigate } from "react-router-dom";
 import { db } from '../../config/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
-function Dialog1({open1,handleClose}){
-    return (
-        <Dialog open={open1} onClose={handleClose}>
-          <DialogTitle>Edit Image and Name</DialogTitle>
-          <DialogContent sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-          <input
+function Dialog1({ open1, handleClose, setprofileimg }) {
+  const [imageSrc, setImageSrc] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const uploadedImageSrc = reader.result;
+        setImageSrc(uploadedImageSrc);
+        
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImageSrc(null);
+  };
+
+  const handleSave=()=>{
+    //update the image firebase
+    setprofileimg(imageSrc); 
+    handleClose();
+  }
+
+  return (
+    <Dialog open={open1} onClose={handleClose}>
+      <DialogTitle>Edit Image </DialogTitle>
+      <DialogContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <input
           accept="image/*"
           id="contained-button-file"
           type="file"
-        //   onChange={handleFileChange}
+          onChange={handleFileChange}
           style={{ display: 'none' }}
         />
-        <label htmlFor="contained-button-file" >
-          <IconButton component="span" >
-            <Avatar sx={{width:{xs:'100px',sm:'200px'},height:{xs:'100px',sm:'200px'}}}>
-              <CloudUpload />
-            </Avatar>
+        <label htmlFor="contained-button-file">
+          <IconButton component="span">
+          <Avatar sx={{ width: { xs: '100px', sm: '200px' }, height: { xs: '100px', sm: '200px' } }}>
+            {imageSrc ? <img src={imageSrc} alt="Uploaded" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <CloudUpload />}
+          </Avatar>
+
           </IconButton>
         </label>
-            <TextField
-              margin="dense"
-              id="name"
-              label="Name"
-              fullWidth
-            //   value={name}
-            //   onChange={(e) => setName(e.target.value)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button variant="contained" color="primary">
-              Save
-            </Button>
-          </DialogActions>
-        </Dialog>
-      );
+        {imageSrc && (
+          <Button variant="outlined" onClick={handleRemoveImage} sx={{ mt: 1 }}>
+            Change
+          </Button>
+        )}
+        
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button variant="contained" color="primary" onClick={handleSave}>
+          Save
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
 
-function Dialog2({open2,handleClose}){
-    return (
-        <Dialog open={open2} onClose={handleClose}>
-          <DialogTitle>Edit mobile and email</DialogTitle>
-          <DialogContent sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-          
-            <TextField
-              margin="dense"
-              id="name"
-              label="Mobile number"
-              fullWidth
-            //   value={name}
-            //   onChange={(e) => setName(e.target.value)}
-            />
-            <TextField
-              margin="dense"
-              id="name"
-              label="Email address"
-              fullWidth
-            //   value={name}
-            //   onChange={(e) => setName(e.target.value)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button variant="contained" color="primary">
-              Save
-            </Button>
-          </DialogActions>
-        </Dialog>
-    )
-}
 
 function Profile(){
   // const navigate = useNavigate();
+  const [profileimg,setprofileimg]=useState(null);
   const [open1, setopen1] = useState(false);
-  const [open2, setopen2] = useState(false);
   const [userData, setUserData] = useState(null);
 
   const handleClose = () => {
     setopen1(false);
-    setopen2(false);
   };
 
   useEffect(() => {
@@ -129,25 +120,25 @@ function Profile(){
     return(
         <>
         <Box sx={{width:{xs:'90vw',sm:'80vw',md:'60vw'},margin:'5vh auto'}}>
-            <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',margin:'5vh 0'}}><Avatar sx={{width:{xs:'150px',sm:'250px'},height:'auto'}}></Avatar>
+            <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',margin:'5vh 0'}}><Avatar sx={{width:{xs:'150px',sm:'250px'},height:'auto'}} src={profileimg}></Avatar>
                 <Typography sx={{m:'2vh 0',fontSize:{xs:'18px',sm:'24px'}}}>{userData ? userData.name : 'Loading...'}</Typography>
                 <Button sx={{color:'green',fontWeight:'bold',textTransform:'none' ,'&:hover': { backgroundColor: 'transparent' } }} disableRipple onClick={()=>setopen1(true)}>Change</Button>
             </Box>
-            <Dialog1 open1={open1} handleClose={handleClose}/>
-            <Dialog2 open2={open2} handleClose={handleClose}/>
+            <Dialog1 open1={open1} handleClose={handleClose} setprofileimg={setprofileimg}/>
+            {/* <Dialog2 open2={open2} handleClose={handleClose}/> */}
             <Divider/>
-            <Box mt={'4vh'}>
-                <Box sx={{display:'flex',justifyContent:'space-between',margin:'2vh 0'}}>
+            <Box mt={'4vh'} sx={{textAlign:'center'}}>
+                <Box sx={{margin:'2vh 0'}}>
                     <Box><Typography sx={{color:'grey'}}>Mobile number</Typography>
                     <Typography>{userData ? userData.phone : 'Loading...'}</Typography>
                     </Box>
-                    <Button sx={{color:'green',fontWeight:'bold',textTransform:'none' ,'&:hover': { backgroundColor: 'transparent' } }} disableRipple onClick={()=>setopen2(true)}>Change</Button>
+                   
                 </Box>
-                <Box sx={{display:'flex',justifyContent:'space-between',margin:'2vh 0'}}>
+                <Box sx={{margin:'2vh 0'}}>
                     <Box><Typography sx={{color:'grey'}}>Email address</Typography>
                     <Typography>{userData ? userData.email : 'Loading...'}</Typography>
                     </Box>
-                    <Button sx={{color:'green',fontWeight:'bold',textTransform:'none' ,'&:hover': { backgroundColor: 'transparent' } }} disableRipple onClick={()=>setopen2(true)}>Change</Button>
+                   
                 </Box>
             </Box>
         </Box>
