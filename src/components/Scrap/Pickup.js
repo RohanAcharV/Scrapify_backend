@@ -1,9 +1,14 @@
-import { Box, Button, IconButton, ImageList, ImageListItem, Typography } from "@mui/material";
+import { Box, Button, IconButton, ImageList, ImageListItem, Typography ,CircularProgress, TextField} from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import React, { useState } from "react";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { AddPhotoAlternate, Camera, Delete } from "@mui/icons-material";
 import Webcamera from "../Olx/Sellform/Webcam";
+import { useEffect } from "react";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import "./map.css";
+import { Icon } from "leaflet";
 
 function Pickup(){
 
@@ -17,13 +22,28 @@ const [imagesArray, setImagesArray] = useState([]);
     setImagesArray((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+      console.log(position)
+    });
+  }, []);
+
+  const customIcon = new Icon({
+    iconUrl: require("./marker.webp"),
+    iconSize: [30, 30],
+  });
 
     return (
         <div>
 
             <Box sx={{display:'flex',flexDirection:'column',alignItems:'center',m:'5vh 0',textAlign:'center'}}>
 
-            <Box sx={{ m: '3vh 0', border: '1px solid grey', borderRadius: '5px', width: '70vw' }}>
+            <Box sx={{ m: '3vh 0', border: '1px solid grey', borderRadius: '5px', width: { xs: "90vw", sm: "70vw" } }}>
         <Box>
           <Typography sx={{mb:'1vh',height:'5vh',backgroundColor:'rgba(144, 238, 144, 0.8);',fontWeight:'bolder',fontSize:{xs:'14px',sm:'16px'},p:'1vh 0'}}>Select date</Typography>
         </Box>
@@ -43,12 +63,56 @@ const [imagesArray, setImagesArray] = useState([]);
         </Box>
       </Box>
 
-      <Box sx={{ m: '3vh 0', border: '1px solid grey', borderRadius: '5px', width: '70vw' }}>
-        <Box><Typography sx={{mb:'1vh',height:'5vh',backgroundColor:'rgba(144, 238, 144, 0.8);',fontWeight:'bolder',fontSize:{xs:'14px',sm:'16px'},p:'1vh 0'}}>Select address</Typography></Box>
-        <Box sx={{m:'2vh 0'}}>selecting address from map , manually enter address</Box>
-      </Box>
+      <Box
+          sx={{
+            m: "3vh 0",
+            border: "1px solid grey",
+            borderRadius: "5px",
+            width: { xs: "90vw", sm: "70vw" },
+          }}
+        >
+          <Box>
+            <Typography
+              sx={{
+                mb: "1vh",
+                height: "5vh",
+                backgroundColor: "rgba(144, 238, 144, 0.8);",
+                fontWeight: "bolder",
+                fontSize: { xs: "14px", sm: "16px" },
+                p: "1vh 0",
+              }}
+            >
+              Enter address
+            </Typography>
+          </Box>
+          <Box sx={{ m: "2vh 0" }}>
+          <TextField label="Address line 1" sx={{width:'80%',marginBottom:'2vh'}} />
+      <TextField label="Address line 2" sx={{width:'80%',marginBottom:'2vh'}} />
+      <TextField label="Pincode" sx={{width:'80%',marginBottom:'2vh'}} />
+          </Box>
+          {/*---------------------Map box below --------------------------------------------------- */}
+          <Box
+            sx={{
+              backgroundColor: "white",
+              width: "100%",
+              height: { xs: "260px", sm: "320px" },
+            }}
+          >
+            {
+              (latitude!='' && longitude!='') ? (<MapContainer center={[latitude, longitude]} zoom={20}>
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  style={{ pointerEvents: 'none' }}
+                />
+                <Marker position={[latitude, longitude]} icon={customIcon}>
+                  <Popup>A</Popup>
+                </Marker>
+              </MapContainer>):(<><CircularProgress/><Typography>fetching current location</Typography></>)
+            }
+          </Box>
+        </Box>
 
-      <Box sx={{ m: '3vh 0', border: '1px solid grey', borderRadius: '5px', width: '70vw' }}>
+      <Box sx={{ m: '3vh 0', border: '1px solid grey', borderRadius: '5px',width: { xs: "90vw", sm: "70vw" } }}>
         <Box><Typography sx={{mb:'1vh',height:'5vh',backgroundColor:'rgba(144, 238, 144, 0.8);',fontWeight:'bolder',fontSize:{xs:'14px',sm:'16px'},p:'0vh 0'}}>Upload images</Typography></Box>
          <Box sx={{m:'0vh 0'}}>
          <Box sx={{ border: '1px solid black' }}>

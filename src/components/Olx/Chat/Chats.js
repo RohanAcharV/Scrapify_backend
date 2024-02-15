@@ -4,10 +4,33 @@ import { db } from '../../../config/firebase';
 import { collection, addDoc, doc, setDoc ,documentId,serverTimestamp,onSnapshot,where,orderBy,query} from 'firebase/firestore';
 import { AppBar, Avatar, Box, Button, Divider, IconButton, LinearProgress, TextField, Toolbar, Typography } from "@mui/material";
 import { Send } from "@mui/icons-material";
+import { getDoc } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 
 function Chats({useremail}){
     const {receiver}=useParams();
     const [messages,setmessages]=useState();
+    const [receiverData, setReceiverData] = useState(null);
+
+    useEffect(() => {
+        const fetchReceiverData = async () => {
+            try {
+                const receiverQuery = query(collection(db, 'users'), where('email', '==', receiver));
+                const querySnapshot = await getDocs(receiverQuery);
+                if (!querySnapshot.empty) {
+                    const userData = querySnapshot.docs[0].data();
+                    setReceiverData(userData);
+                } else {
+                    console.log('Receiver document does not exist');
+                }
+            } catch (error) {
+                console.error('Error fetching receiver data:', error.message);
+            }
+        };
+
+        fetchReceiverData();
+        console.log(receiverData);
+    }, [receiver]);
 
     const fetchmessages = () => {
         const senderid = useremail;
@@ -81,8 +104,8 @@ function Chats({useremail}){
         <Box>
             <AppBar position="static">
                 <Toolbar sx={{backgroundColor:'lightgreen'}}>
-                    <Avatar src="null"/>
-                    <Typography sx={{ml:'2vw',fontWeight:'bold',color:'black'}}>{receiver}</Typography>
+                    <Avatar src={receiverData?.profile}/>
+                    <Typography sx={{ml:'2vw',fontWeight:'bold',color:'black'}}>{receiverData?.name || receiver}</Typography>
                 </Toolbar>
             </AppBar>
         </Box>

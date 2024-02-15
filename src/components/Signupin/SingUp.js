@@ -72,7 +72,7 @@ export default function SignUp() {
 
       localStorage.setItem('user_email', email);
       localStorage.setItem('uid', user.uid);
-      navigate('/resell');
+      navigate('/');
     } catch (error) {
       console.error('Error signing up:', error.message);
       setError(error.message); // Set the error message for display
