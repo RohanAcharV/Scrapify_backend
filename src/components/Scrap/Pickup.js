@@ -25,6 +25,7 @@ const [imagesArray, setImagesArray] = useState([]);
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setLatitude(position.coords.latitude);
